@@ -1,0 +1,5 @@
+[
+    {"nombre": "Apolo", "capacidad_maxima": 33, "clases_programadas": []},
+    {"nombre": "Artemis", "capacidad_maxima": 33, "clases_programadas": []},
+    {"nombre": "Sputnik", "capacidad_maxima": 33, "clases_programadas": []}
+]

@@ -1,0 +1,122 @@
+[
+    {
+        "id": "123456798",
+        "nombres": "Pepito",
+        "apellidos": "Perez Sosa",
+        "direcion": "calle falsa 123",
+        "acudiente": "Maria Sosa",
+        "telefonos": {
+            "celular": "300123456",
+            "fijo": "6071234567"
+        },
+        "estado": "En proceso de ingreso",
+        "riesgo": "N/A",
+        "notas iniciales": {
+            "teorica": 0,
+            "practica": 0,
+            "aprobado": false
+        },
+        "modulos_notas": [
+            {
+                "modulo": "Dundamentos de la programacion",
+                "nota_teorica": 0,
+                "nota_practica": 0,
+                "quices_trabajos": 0,
+                "aprobado": false
+            }
+        ]
+    },
+    {
+        "id": "10095911715",
+        "nombres": "Brayan",
+        "apellidos": "Espinosa",
+        "direccion": "cra 24 #35191",
+        "acudiente": "diana judith",
+        "telefonos": {
+            "celular": "3164480983",
+            "fijo": "N/A"
+        },
+        "estado": "En proceso de ingreso",
+        "riesgo": "N/A",
+        "notas_inicial": {
+            "teorica": 0,
+            "practica": 0,
+            "aprobado": false
+        },
+        "modulos_notas": []
+    },
+    {
+        "id": "1005911715",
+        "nombres": "Brayan",
+        "apellidos": "Espinosa Osorio",
+        "direccion": "cra 24#35-191",
+        "acudiente": "Diana Judith",
+        "telefonos": {
+            "celular": "3164480683",
+            "fijo": "N/A"
+        },
+        "estado": "Aprobado",
+        "riesgo": "N/A",
+        "notas_inicial": {
+            "teorica": 80.0,
+            "practica": 40.0,
+            "aprobado": true
+        },
+        "modulos_notas": [],
+        "username": "1005911715",
+        "rutas_matriculadas": [
+            {
+                "ruta_id": "R004",
+                "fecha_inicio": "2588",
+                "fecha_fin": "333",
+                "salon": "apolo",
+                "modulos_notas": {
+                    "Programacio\u0301n formal (Java, JavaScript, C#)": {
+                        "nota": 60.0,
+                        "aprobado": true
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "id": "1005332540",
+        "nombres": "susana ",
+        "apellidos": "pedraza",
+        "direccion": "calle 147c # 44-34",
+        "acudiente": "andres",
+        "telefonos": {
+            "celular": "3132096722",
+            "fijo": "N/A"
+        },
+        "estado": "Aprobado",
+        "riesgo": "N/A",
+        "notas_inicial": {
+            "teorica": 100.0,
+            "practica": 100.0,
+            "aprobado": true
+        },
+        "modulos_notas": [],
+        "username": "susanap"
+    },
+    {
+        "id": "28537963",
+        "nombres": "Diana Juidith",
+        "apellidos": "Osorio",
+        "direccion": "cra 24#35-191",
+        "acudiente": "maria",
+        "telefonos": {
+            "celular": "3184554181",
+            "fijo": "6138589"
+        },
+        "estado": "Inscrito",
+        "riesgo": "N/A",
+        "notas_inicial": {
+            "teorica": 80.0,
+            "practica": 20.0,
+            "aprobado": false
+        },
+        "modulos_notas": [],
+        "username": "28537963"
+    }
+]

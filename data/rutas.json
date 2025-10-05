@@ -1,0 +1,45 @@
+[
+    {
+        "id": "R001",
+        "nombre": "Ruta Python",
+        "modulos": [],
+        "capacidad_actual": 0,
+        "id_trainer_asignado": "T001",
+        "nombre_trainer_asignado": "Juan Perez",
+        "salon_asignado": "Spitzer",
+        "trainer_asignado": {
+            "id": "100023",
+            "salon": "Apolo"
+        }
+    },
+    {
+        "id": "R004",
+        "nombre": "kkk",
+        "descripcion": "sss",
+        "modulos": [
+            "Fundamentos de programacio\u0301n (Introduccio\u0301n a la algoritmia, PSeInt y Python)",
+            "Programacio\u0301n Web (HTML, CSS y Bootstrap)",
+            "Programacio\u0301n formal (Java, JavaScript, C#)",
+            "Bases de datos (Mysql, MongoDb y Postgresql)",
+            "Backend (NetCore, Spring Boot, NodeJS y Express)"
+        ]
+    },
+    {
+        "id": "R005",
+        "nombre": "ff",
+        "descripcion": "fff",
+        "modulos": [
+            "Fundamentos de programacio\u0301n (Introduccio\u0301n a la algoritmia, PSeInt y Python)"
+        ],
+        "trainer_asignado": {}
+    },
+    {
+        "id": "R004",
+        "nombre": "holaaa",
+        "descripcion": "aaa",
+        "modulos": [
+            "Programacio\u0301n Web (HTML, CSS y Bootstrap)"
+        ],
+        "trainer_asignado": {}
+    }
+]

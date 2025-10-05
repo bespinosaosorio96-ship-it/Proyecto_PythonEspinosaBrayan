@@ -1,0 +1,61 @@
+[
+    {
+        "username": "camper1",
+        "password": "123",
+        "rol": "camper",
+        "id_asociado": "123456789"
+    },
+    {
+        "username": "trainer1",
+        "password": "123",
+        "rol": "trainer",
+        "id_asociado": "987654321"
+    },
+    {
+        "username": "coordinador",
+        "password": "admin",
+        "rol": "coordinador"
+    },
+    {
+        "id_asociado": "1005911715",
+        "username": "1005911715",
+        "password": "Cs1005911715",
+        "rol": "camper"
+    },
+    {
+        "id_asociado": "100023",
+        "username": "andres",
+        "password": "t1003",
+        "rol": "trainer"
+    },
+    {
+        "id_asociado": "22",
+        "username": "222",
+        "password": "222",
+        "rol": "trainer"
+    },
+    {
+        "id_asociado": "4561223",
+        "username": "carlos",
+        "password": "carlos",
+        "rol": "trainer"
+    },
+    {
+        "id_asociado": "1005332540",
+        "username": "susanap",
+        "password": "1234",
+        "rol": "camper"
+    },
+    {
+        "id_asociado": "1098672054",
+        "username": "valentina",
+        "password": "valentina",
+        "rol": "trainer"
+    },
+    {
+        "id_asociado": "28537963",
+        "username": "28537963",
+        "password": "d28537963",
+        "rol": "camper"
+    }
+]

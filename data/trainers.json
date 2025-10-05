@@ -1,0 +1,60 @@
+[
+    {
+        "id": "987654321",
+        "nombres": "Carlos",
+        "apellidos": "Ruiz",
+        "especialidad": [
+            "NodeJS",
+            "Java"
+        ],
+        "horario": "Lunes a Viernes 8 AM - 12 PM",
+        "rutas_asignadas": []
+    },
+    {
+        "id": "100023",
+        "nombres": "Andrea",
+        "apellidos": "jj llk",
+        "especialidad": [
+            "Java"
+        ],
+        "horario": "Lunes a Vienres 2 PM - 10PM",
+        "rutas_asignadas": [],
+        "username": "andres"
+    },
+    {
+        "id": "22",
+        "nombres": "22",
+        "apellidos": "2",
+        "especialidad": [
+            "2"
+        ],
+        "horario": "2",
+        "rutas_asignadas": [],
+        "username": "222"
+    },
+    {
+        "id": "4561223",
+        "nombres": "carlos",
+        "apellidos": "carlos",
+        "especialidad": [
+            "NodeJS",
+            "Java"
+        ],
+        "horario": "",
+        "rutas_asignadas": [],
+        "username": "carlos"
+    },
+    {
+        "id": "1098672054",
+        "nombres": "valentina",
+        "apellidos": "pedraza",
+        "especialidad": [
+            "NodeJS",
+            "Java",
+            "C3#"
+        ],
+        "horario": "",
+        "rutas_asignadas": [],
+        "username": "valentina"
+    }
+]

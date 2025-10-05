@@ -1,0 +1,11 @@
+[
+    {
+        "id_matricula": "M-001",
+        "id_camper": "123456789",
+        "id_trainer": "987654321",
+        "ruta_asignada": "Ruta NodeJS",
+        "fecha_inicio": "2023-10-26",
+        "fecha_finalizacion": "2024-04-26",
+        "salon_entrenamiento": "Apolo"
+    }
+]
