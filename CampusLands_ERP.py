@@ -5,8 +5,8 @@ if __name__ == "__main__":
     main()
 
     
-    #user name coordinador
-    #pass wors admin
+    #username coordinador
+    #password admin
 
-    #no se reistra trainer en ruta REVISAR
+
     
