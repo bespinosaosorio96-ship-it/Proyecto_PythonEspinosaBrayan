@@ -1,4 +1,6 @@
 
+from ast import While
+from os import read
 from webbrowser import get
 from modules.utils import read_json, write_json, clear_screen, pause_screen, generate_matricula_id
 from modules.reportes import menu_reportes
@@ -18,7 +20,8 @@ def menu_coordinador():
         print("8. Listar Campers Registrados")
         print("9. Asignar Trainer y Salón a Ruta")
         print("10. Reportes")
-        print("11. Cerrar Sesión")
+        print("11. Cambiar Estado de Camper")
+        print("12. Cerrar Sesión")
 
         opcion = input("Seleccione una opción: ")
 
@@ -44,6 +47,8 @@ def menu_coordinador():
         elif opcion == '10':
             menu_reportes()
         elif opcion == '11':
+            cambiar_estado_camper()
+        elif opcion == '12':
             print("Cerrando sesión...")
             pause_screen()
             break
@@ -53,21 +58,31 @@ def menu_coordinador():
 
 def registrar_camper():
     clear_screen()
-    print("\n--- Registrar Nuevo Camper ---")
+    print("\n--- Registrar Nuevo Camper ---") 
+    while True:
+        username=input("Nombre de Usuario: ")
+        usuarios = read_json('usuarios')
+        if any(u['username'] == username for u in usuarios):
+            print(f"El usuario '{username}' ya existe. Por favor, elija otro nombre de usuario.")
+        else:
+             break
+        
+    password=input("Contraseña: ")    
+    id=input("Ingrese su # de identificación:")
+    rol='camper'
+    create_user_account(id,username,password,rol)
     nombres = input("Nombres: ")
     apellidos = input("Apellidos: ")
     direccion = input("Dirección: ")
     acudiente = input("Nombre del Acudiente: ")
     telefono_celular = input("Teléfono Celular: ")
     telefono_fijo = input("Teléfono Fijo: ")
-    estado = input("Estado (Activo/Inactivo): ")
-    riesgo = input("Nivel de Riesgo (Bajo/Medio/Alto): ")
+    estado = "En proceso de ingreso"
+    riesgo = "Bajo"
 
     campers = read_json('campers')
-    nuevo_id = generate_matricula_id(campers)
-
     nuevo_camper = {
-        "id": nuevo_id,
+        "id": id,
         "nombres": nombres,
         "apellidos": apellidos,
         "direccion": direccion,
@@ -89,7 +104,7 @@ def registrar_camper():
 
     campers.append(nuevo_camper)
     write_json('campers', campers)
-    print(f"\nCamper registrado exitosamente con ID: {nuevo_id}")
+    print(f"\nCamper registrado exitosamente con ID: {id}")
     pause_screen()  
 
 def listar_campers():
@@ -101,6 +116,7 @@ def listar_campers():
     else:
         for camper in campers:
             print(f"ID: {camper['id']}, Nombre: {camper['nombres']} {camper['apellidos']}, Estado: {camper['estado']}, Riesgo: {camper['riesgo']}")
+    pause_screen()
 
 
 def registrar_notas_inicial():
@@ -116,6 +132,10 @@ def registrar_notas_inicial():
                 nota_practica = float(input("Nota Práctica (0-100): "))
                 promedio= (nota_teorica + nota_practica) / 2
                 aprobado=promedio>=60
+                if not (0 <= nota_teorica <= 100) or not (0 <= nota_practica <= 100):
+                    print("Error: Las notas deben estar entre 0 y 100.")
+                    pause_screen()
+                    return
                 camper['notas_inicial']['teorica'] = nota_teorica
                 camper['notas_inicial']['practica'] = nota_practica
                 camper['notas_inicial']['aprobado'] = aprobado
@@ -133,6 +153,18 @@ def registrar_notas_inicial():
 def registrar_trainer():
     clear_screen()
     print("\n--- Registrar Nuevo Trainer ---")
+    while True:
+        username=input("Nombre de Usuario:")
+        usuarios=read_json('usuarios')
+        if any(u['username'] == username for u in usuarios):
+            print(f"El usuario '{username}' ya existe. Por favor, elija otro nombre de usuario.")
+        else:
+            break   
+
+    password=input("Contraseña: ")
+    rol='trainer'
+    id=input("Ingrese su # de identificación:")
+    create_user_account(id,username,password,rol)
     nombres = input("Nombres: ")
     apellidos = input("Apellidos: ")
     especialidad = input("Especialidad: ")
@@ -140,10 +172,9 @@ def registrar_trainer():
     telefono_fijo = input("Teléfono Fijo: ")
 
     trainers = read_json('trainers')
-    nuevo_id = f"T{len(trainers)+1:03d}"
 
     nuevo_trainer = {
-        "id": nuevo_id,
+        "id": id,
         "nombres": nombres,
         "apellidos": apellidos,
         "especialidad": especialidad,
@@ -156,7 +187,7 @@ def registrar_trainer():
 
     trainers.append(nuevo_trainer)
     write_json('trainers', trainers)
-    print(f"\nTrainer registrado exitosamente con ID: {nuevo_id}")
+    print(f"\nTrainer registrado exitosamente con ID: {id}")
     pause_screen()
 
 def modulos():
@@ -229,6 +260,7 @@ def gestionar_areas_entrenamiento():
         else:
             print("Opción no válida.")
             pause_screen()
+
 def listar_areas():
     clear_screen()
     print("\n--- Lista de Áreas de Entrenamiento ---")
@@ -237,43 +269,77 @@ def listar_areas():
         print("No hay áreas registradas.")
     else:
         for area in areas:
-            print(f"ID: {area['id']}, Nombre: {area['nombre']}, Descripción: {area['descripcion']}")
+            print(f"Nombre: {area['nombre']}, Capacidad : {area['capacidad_maxima']}, Clases Programadas: {len(area['clases_programadas'])}")
+          
     pause_screen()
 def agregar_area():
     clear_screen()
     print("\n--- Agregar Nueva Área de Entrenamiento ---")
     nombre = input("Nombre del Área: ")
-    descripcion = input("Descripción: ")
+    capacidad_maxima=33
+    def programar_clase():
+        dia=input("Día de la semana (e.g., Lunes): ")
+        hora=input("Hora (e.g., 14:00): ")
+        entrenador=input("Nombre del Entrenador: ")
+        tema=input("Tema de la Clase: ")
+        nueva_clase={
+            "dia":dia,
+            "hora":hora,
+            "entrenador":entrenador,
+            "tema":tema
+        }
+        return nueva_clase
+    classes_programadas=[]
+    while True:
+        agregar=input("¿Desea programar una clase para esta área? (s/n): ").lower()
+        if agregar=='s':
+            nueva_clase=programar_clase()
+            classes_programadas.append(nueva_clase)
+        elif agregar=='n':
+            break
+        else:
+            print("Entrada inválida. Por favor, ingrese 's' o 'n'.")
 
     areas = read_json('areas')
-    nuevo_id = f"A{len(areas)+1:03d}"
 
     nueva_area = {
-        "id": nuevo_id,
         "nombre": nombre,
-        "descripcion": descripcion
+        "capacidad_maxima": 33,
+        "clases_programadas": [],
     }
 
     areas.append(nueva_area)
     write_json('areas', areas)
-    print(f"\nÁrea de entrenamiento agregada exitosamente con ID: {nuevo_id}")
+    print(f"\nÁrea de entrenamiento agregada exitosamente con nombre:: {nombre}")
     pause_screen()
+
 def eliminar_area():
     clear_screen()
     print("\n--- Eliminar Área de Entrenamiento ---")
     areas = read_json('areas')
-    listar_areas()
-    id_area = input("Ingrese el ID del área a eliminar: ")
-    for area in areas:
-        if area['id'] == id_area:
-            areas.remove(area)
+    if not areas:
+        print("No hay áreas registradas.")
+        pause_screen()
+        return
+    for idx, area in enumerate(areas):
+        print(f"{idx + 1}. Nombre: {area['nombre']}, Capacidad : {area['capacidad_maxima']}, Clases Programadas: {len(area['clases_programadas'])}")
+    seleccion = input("Seleccione el área a eliminar (número): ")
+    try:          
+        indice = int(seleccion) - 1
+        if 0 <= indice < len(areas):
+            area_eliminada = areas.pop(indice)
             write_json('areas', areas)
-            print(f"Área con ID: {id_area} eliminada exitosamente.")
-            pause_screen()
-            return
-    print("Área no encontrada.")
+            print(f"Área '{area_eliminada['nombre']}' eliminada exitosamente.")
+        else:
+            print("Selección inválida.")
+    except ValueError:
+        print("Entrada inválida. Por favor, ingrese un número.")
     pause_screen()
-    trainers = read_json('trainers')
+
+
+    
+
+
 def matriculas():
     clear_screen()
     print("\n--- Matricular Camper en Ruta ---")
@@ -321,8 +387,6 @@ def matriculas():
             return
     print("Camper no encontrado.")
     pause_screen()
-
-
 def registrar_notas_modulo_coordinador():
     clear_screen()
     print("\n--- Registrar/Editar Notas de Módulo ---")
@@ -440,12 +504,7 @@ def registrar_notas_modulo_coordinador():
         print("Entrada de ruta inválida. Por favor, ingrese un número.")
         pause_screen()
         return
-        
-
-
-
-
-        
+            
 def asignar_trainer_y_salon_a_ruta():
     clear_screen()
     print("\n--- Asignar Trainer y Salón a Ruta ---")
@@ -482,9 +541,41 @@ def asignar_trainer_y_salon_a_ruta():
                     return
             print("Trainer no encontrado.")
             pause_screen()
-            return
+            
+        
     print("Ruta no encontrada.")
     pause_screen()
+
+def cambiar_estado_camper(id_camper,_nuevo_estado):
+    estado=["En proceso de ingreso","Inscrito","Aprobado","Cursando","Graduado","Retirado"]
+    def mostrar_estados():
+        print("\nEstados Disponibles:")
+        for idx, est in enumerate(estado):
+            print(f"{idx + 1}. {est}")
+    mostrar_estados()
+    seleccion = input("Seleccione el nuevo estado (número): ")
+    try:
+        indice_estado = int(seleccion) - 1
+        if not (0 <= indice_estado < len(estado)):
+            print("Selección de estado inválida.")
+            pause_screen()
+            return
+        _nuevo_estado = estado[indice_estado]
+    except ValueError:
+        print("Entrada inválida. Por favor, ingrese un número.")
+        pause_screen()
+        return
+    if _nuevo_estado in estado:
+        campers = read_json('campers')
+        for camper in campers:
+            if camper['id'] == id_camper:
+                camper['estado'] = _nuevo_estado
+                write_json('campers', campers)
+                print(f"Estado del camper ID: {id_camper} cambiado a { _nuevo_estado } exitosamente.")
+                pause_screen()
+                return
+        print("Camper no encontrado.")
+        pause_screen()
 
 
 

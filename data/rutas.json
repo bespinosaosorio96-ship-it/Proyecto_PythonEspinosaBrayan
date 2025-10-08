@@ -8,7 +8,7 @@
         "nombre_trainer_asignado": "Juan Perez",
         "salon_asignado": "Spitzer",
         "trainer_asignado": {
-            "id": "100023",
+            "id": "987654321",
             "salon": "Apolo"
         }
     },
@@ -39,6 +39,15 @@
         "descripcion": "aaa",
         "modulos": [
             "Programacio\u0301n Web (HTML, CSS y Bootstrap)"
+        ],
+        "trainer_asignado": {}
+    },
+    {
+        "id": "R005",
+        "nombre": "dd",
+        "descripcion": "dd",
+        "modulos": [
+            "Fundamentos de programacio\u0301n (Introduccio\u0301n a la algoritmia, PSeInt y Python)"
         ],
         "trainer_asignado": {}
     }

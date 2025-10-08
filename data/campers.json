@@ -23,6 +23,13 @@
                 "nota_practica": 0,
                 "quices_trabajos": 0,
                 "aprobado": false
+            },
+            {
+                "modulo": "Programacion formal (Java, JavaScript, C#)",
+                "nota_teorica": 0,
+                "nota_practica": 0,
+                "quices_trabajos": 0,
+                "aprobado": false
             }
         ]
     },
@@ -73,6 +80,10 @@
                 "modulos_notas": {
                     "Programacio\u0301n formal (Java, JavaScript, C#)": {
                         "nota": 60.0,
+                        "aprobado": true
+                    },
+                    "Fundamentos de programacio\u0301n (Introduccio\u0301n a la algoritmia, PSeInt y Python)": {
+                        "nota": 80.0,
                         "aprobado": true
                     }
                 }

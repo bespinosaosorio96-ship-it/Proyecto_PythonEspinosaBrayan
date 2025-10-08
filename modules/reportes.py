@@ -18,15 +18,15 @@ def listar_campers_inscritos():
 def listar_campers_aprobados_inicial():
     clear_screen()
     campers = read_json('campers')
-    aprobados_inicial = [c for c in campers if c['notas_inicial']['aprobado']]
-    
+    aprobados= [c for c in campers if c['notas_inicial'].get('aprobado', False)]
+
     print("\n--- Campers que Aprobaron el Examen Inicial ---")
-    if not aprobados_inicial:
+    if not aprobados:
         print("No hay campers que hayan aprobado el examen inicial.")
         pause_screen()
         return
 
-    for camper in aprobados_inicial:
+    for camper in aprobados:
         print(f"ID: {camper['id']}, Nombre: {camper['nombres']} {camper['apellidos']}, Nota Teórica: {camper['notas_inicial']['teorica']}, Nota Práctica: {camper['notas_inicial']['practica']}, Promedio: {round((camper['notas_inicial']['teorica'] + camper['notas_inicial']['practica']) / 2, 2)}")
     pause_screen()
 
@@ -34,121 +34,86 @@ def listar_trainers():
     clear_screen()
     trainers = read_json('trainers')
     
-    print("\n--- Entrenadores de CampusLands ---")
+    print("\n--- Lista de Trainers de CampusLands ---")
     if not trainers:
         print("No hay trainers registrados.")
         pause_screen()
         return
 
     for trainer in trainers:
-        print(f"ID: {trainer['id']}, Nombre: {trainer['nombres']} {trainer['apellidos']}, Especialidad: {', '.join(trainer['especialidad'])}, Horario: {trainer['horario']}")
+        print(f"ID: {trainer['id']}, Nombre: {trainer['nombres']} {trainer['apellidos']}, Especialidad: {trainer['especialidad']}, Rutas Asignadas: {', '.join(trainer['rutas_asignadas'])}")
     pause_screen()
 
 def listar_campers_bajo_rendimiento():
     clear_screen()
     campers = read_json('campers')
-    bajo_rendimiento = [c for c in campers if c['riesgo'] == 'Alto']
-    
-    print("\n--- Campers con Bajo Rendimiento (Riesgo Alto) ---")
+    bajo_rendimiento = [c for c in campers if c['riesgo'] == 'Bajo']
+
+    print("\n--- Campers con Bajo Rendimiento ---")
     if not bajo_rendimiento:
-        print("No hay campers actualmente en bajo rendimiento (riesgo alto).")
+        print("No hay campers con bajo rendimiento.")
         pause_screen()
         return
 
     for camper in bajo_rendimiento:
         print(f"ID: {camper['id']}, Nombre: {camper['nombres']} {camper['apellidos']}, Estado: {camper['estado']}, Riesgo: {camper['riesgo']}")
-        # Opcional: mostrar detalles de los módulos con bajo rendimiento
-        for modulo_nota in camper['modulos_notas']:
-            if not modulo_nota['aprobado']:
-                print(f"  - Módulo: {modulo_nota['modulo']}, Nota Final: {modulo_nota['nota_final']}")
+    pause_screen()
+
+
+def mostrar_rendimiento_modulos():
+    clear_screen()
+    campers = read_json('campers')
+    
+    print("\n--- Rendimiento por Módulos (Aprobados/Perdidos) ---")
+    if not campers:
+        print("No hay campers registrados.")
+        pause_screen()
+        return
+
+    modulos_dict = {}
+    for camper in campers:
+        for nota in camper['modulos_notas']:
+            modulo = nota['modulo']
+            if modulo not in modulos_dict:
+                modulos_dict[modulo] = {'aprobados': 0, 'perdidos': 0}
+            if nota['aprobado']:
+                modulos_dict[modulo]['aprobados'] += 1
+            else:
+                modulos_dict[modulo]['perdidos'] += 1
+
+    for modulo, conteo in modulos_dict.items():
+        print(f"Módulo: {modulo}, Aprobados: {conteo['aprobados']}, Perdidos: {conteo['perdidos']}")
     pause_screen()
 
 def listar_campers_y_trainers_por_ruta():
     clear_screen()
-    rutas = read_json('rutas')
-    matriculas = read_json('matriculas')
     campers = read_json('campers')
     trainers = read_json('trainers')
+    
+    ruta_id = input("Ingrese el ID de la ruta (e.g., R001): ").strip()
+    
+    campers_en_ruta = [c for c in campers if any(r['ruta_id'] == ruta_id for r in c.get('rutas', []))]
+    trainers_en_ruta = [t for t in trainers if ruta_id in t.get('rutas_asignadas', [])]
 
-    print("\n--- Campers y Trainers por Ruta de Entrenamiento ---")
-    if not rutas:
-        print("No hay rutas de entrenamiento para mostrar.")
-        pause_screen()
-        return
+    print(f"\n--- Campers y Trainers Asociados a la Ruta {ruta_id} ---")
+    
+    if not campers_en_ruta:
+        print("No hay campers asociados a esta ruta.")
+    else:
+        print("\nCampers:")
+        for camper in campers_en_ruta:
+            print(f"ID: {camper['id']}, Nombre: {camper['nombres']} {camper['apellidos']}, Estado: {camper['estado']}, Riesgo: {camper['riesgo']}")
 
-    for ruta in rutas:
-        print(f"\n--- Ruta: {ruta['nombre']} ---")
-        
-        # Trainers de esta ruta
-        trainers_ruta = [t for t in trainers if ruta['nombre'] in t['rutas_asignadas']]
-        if trainers_ruta:
-            print("  Trainers:")
-            for trainer in trainers_ruta:
-                print(f"    - ID: {trainer['id']}, Nombre: {trainer['nombres']} {trainer['apellidos']}")
-        else:
-            print("  No hay trainers asignados a esta ruta.")
+    if not trainers_en_ruta:
+        print("\nNo hay trainers asociados a esta ruta.")
+    else:
+        print("\nTrainers:")
+        for trainer in trainers_en_ruta:
+            print(f"ID: {trainer['id']}, Nombre: {trainer['nombres']} {trainer['apellidos']}, Especialidad: {trainer['especialidad']}")
 
-        # Campers de esta ruta
-        matriculas_ruta = [m for m in matriculas if m['ruta_asignada'] == ruta['nombre']]
-        campers_ruta_ids = {m['id_camper'] for m in matriculas_ruta} # Usar set para evitar duplicados
-        
-        if campers_ruta_ids:
-            print("  Campers:")
-            for camper_id in campers_ruta_ids:
-                camper_info = next((c for c in campers if c['id'] == camper_id), None)
-                if camper_info:
-                    print(f"    - ID: {camper_info['id']}, Nombre: {camper_info['nombres']} {camper_info['apellidos']}, Estado: {camper_info['estado']}")
-        else:
-            print("  No hay campers matriculados en esta ruta.")
     pause_screen()
 
-def mostrar_rendimiento_modulos():
-    clear_screen()
-    rutas = read_json('rutas')
-    campers = read_json('campers')
-    matriculas = read_json('matriculas')
 
-    print("\n--- Rendimiento de Campers por Módulo ---")
-    if not rutas:
-        print("No hay rutas de entrenamiento para analizar.")
-        pause_screen()
-        return
-    
-    for ruta in rutas:
-        print(f"\n--- Ruta: {ruta['nombre']} ---")
-        
-        # Mapear campers a sus rutas y trainers para el reporte
-        campers_en_ruta = {} # {camper_id: {'camper_obj': {}, 'trainer_id': 'X'}}
-        for m in matriculas:
-            if m['ruta_asignada'] == ruta['nombre']:
-                camper_obj = next((c for c in campers if c['id'] == m['id_camper']), None)
-                if camper_obj:
-                    campers_en_ruta[m['id_camper']] = {'camper_obj': camper_obj, 'trainer_id': m['id_trainer']}
-
-        if not campers_en_ruta:
-            print("  No hay campers matriculados en esta ruta.")
-            continue
-
-        for modulo in ruta['modulos']:
-            modulo_nombre = modulo['nombre']
-            aprobados_modulo = 0
-            perdidos_modulo = 0
-            
-            for camper_id, data in campers_en_ruta.items():
-                camper_obj = data['camper_obj']
-                for nota_modulo in camper_obj['modulos_notas']:
-                    if nota_modulo['modulo'] == modulo_nombre:
-                        if nota_modulo['aprobado']:
-                            aprobados_modulo += 1
-                        else:
-                            perdidos_modulo += 1
-                        break # Ya encontramos la nota para este módulo y camper
-
-            print(f"\n  Módulo: {modulo_nombre}")
-            print(f"    Aprobados: {aprobados_modulo}")
-            print(f"    Perdidos: {perdidos_modulo}")
-    
-    pause_screen()
 
 
 def menu_reportes():

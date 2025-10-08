@@ -57,5 +57,23 @@
         "username": "28537963",
         "password": "d28537963",
         "rol": "camper"
+    },
+    {
+        "id_asociado": "123456",
+        "username": "hhh",
+        "password": "hhh",
+        "rol": "camper"
+    },
+    {
+        "id_asociado": "hh",
+        "username": "hhhh",
+        "password": "hhhhh",
+        "rol": "camper"
+    },
+    {
+        "id_asociado": "gg",
+        "username": "ggg",
+        "password": "ggg",
+        "rol": "trainer"
     }
 ]
