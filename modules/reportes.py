@@ -18,17 +18,18 @@ def listar_campers_inscritos():
 def listar_campers_aprobados_inicial():
     clear_screen()
     campers = read_json('campers')
-    aprobados= [c for c in campers if c['notas_inicial'].get('aprobado', False)]
+    aprobados = [c for c in campers if "notas_inicial" in c and c['notas_inicial'].get('aprobado')==True]
 
-    print("\n--- Campers que Aprobaron el Examen Inicial ---")
-    if not aprobados:
+    print("\n--- Campers que Aprobado el Examen Inicial ---")
+    if aprobados:
+        for camper in aprobados:
+            print(f"ID: {camper['id']}, Nombre: {camper['nombres']} {camper['apellidos']}, Estado: {camper['estado']}, Nota Teórica: {camper['notas_inicial'].get('teorica', 0)}, Nota Práctica: {camper['notas_inicial'].get('practica', 0)}")
+    else:
         print("No hay campers que hayan aprobado el examen inicial.")
-        pause_screen()
-        return
-
-    for camper in aprobados:
-        print(f"ID: {camper['id']}, Nombre: {camper['nombres']} {camper['apellidos']}, Nota Teórica: {camper['notas_inicial']['teorica']}, Nota Práctica: {camper['notas_inicial']['practica']}, Promedio: {round((camper['notas_inicial']['teorica'] + camper['notas_inicial']['practica']) / 2, 2)}")
     pause_screen()
+
+
+
 
 def listar_trainers():
     clear_screen()
@@ -89,8 +90,22 @@ def listar_campers_y_trainers_por_ruta():
     clear_screen()
     campers = read_json('campers')
     trainers = read_json('trainers')
-    
-    ruta_id = input("Ingrese el ID de la ruta (e.g., R001): ").strip()
+    rutas=read_json('rutas')
+
+    for idx,ruta in enumerate(rutas):
+        print(f"{idx+1}. {ruta['nombre']}")
+    try:
+        opcion = int(input("Seleccione una ruta por número: "))
+        if opcion < 1 or opcion > len(rutas):
+            print("Opción inválida.")
+            pause_screen()
+            return
+        ruta_id = rutas[opcion-1]['nombre']
+    except ValueError:
+        print("Entrada inválida. Por favor, ingrese un número.")
+        pause_screen()
+        return
+        
     
     campers_en_ruta = [c for c in campers if any(r['ruta_id'] == ruta_id for r in c.get('rutas', []))]
     trainers_en_ruta = [t for t in trainers if ruta_id in t.get('rutas_asignadas', [])]

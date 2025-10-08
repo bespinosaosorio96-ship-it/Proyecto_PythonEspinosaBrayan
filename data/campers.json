@@ -11,7 +11,7 @@
         },
         "estado": "En proceso de ingreso",
         "riesgo": "N/A",
-        "notas iniciales": {
+        "notas inicial": {
             "teorica": 0,
             "practica": 0,
             "aprobado": false
